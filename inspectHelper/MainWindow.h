@@ -16,6 +16,7 @@
 #include "mshtml.h"
 #include "comutil.h"
 #include <ActiveQt/QAxObject>
+#include "AutoThread.h"
 
 
 namespace Ui {
@@ -60,6 +61,7 @@ private slots:
 
     void updateTime();
 
+    void receiveAutoThreadMsg(ThreadMsg s);
 private:
     Ui::MainWindow *ui;
 
@@ -71,6 +73,8 @@ private:
 
     void my_post(QString url,QString postDataStr);
     void initHttp();
+
+    void my_debug(QString s);
 
     QTimer * timer;
     QTime * timeRecord;

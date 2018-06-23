@@ -21,6 +21,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -54,6 +55,9 @@ public:
     QPushButton *checkSignBtn;
     QPushButton *checkSignBtn2;
     QPushButton *timeStartBtn;
+    QLineEdit *siteNameEdit;
+    QLineEdit *tableIndexEdit;
+    QTextEdit *console_edit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -62,7 +66,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1018, 679);
+        MainWindow->resize(1318, 703);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         groupBox = new QGroupBox(centralWidget);
@@ -118,35 +122,44 @@ public:
         userPwd->setGeometry(QRect(140, 20, 113, 20));
         groupBox_3 = new QGroupBox(centralWidget);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        groupBox_3->setGeometry(QRect(30, 530, 761, 80));
+        groupBox_3->setGeometry(QRect(30, 530, 761, 111));
         SignBtn = new QPushButton(groupBox_3);
         SignBtn->setObjectName(QStringLiteral("SignBtn"));
-        SignBtn->setGeometry(QRect(20, 50, 75, 23));
+        SignBtn->setGeometry(QRect(20, 80, 75, 23));
         testBtn = new QPushButton(groupBox_3);
         testBtn->setObjectName(QStringLiteral("testBtn"));
         testBtn->setGeometry(QRect(670, 50, 75, 23));
         resIdEdit = new QLineEdit(groupBox_3);
         resIdEdit->setObjectName(QStringLiteral("resIdEdit"));
-        resIdEdit->setGeometry(QRect(20, 20, 113, 20));
+        resIdEdit->setGeometry(QRect(90, 20, 113, 20));
         longitudeEdit = new QLineEdit(groupBox_3);
         longitudeEdit->setObjectName(QStringLiteral("longitudeEdit"));
-        longitudeEdit->setGeometry(QRect(150, 20, 113, 20));
+        longitudeEdit->setGeometry(QRect(20, 50, 161, 20));
         latitudeEdit = new QLineEdit(groupBox_3);
         latitudeEdit->setObjectName(QStringLiteral("latitudeEdit"));
-        latitudeEdit->setGeometry(QRect(270, 20, 113, 20));
+        latitudeEdit->setGeometry(QRect(190, 50, 191, 20));
         checkSignBtn = new QPushButton(groupBox_3);
         checkSignBtn->setObjectName(QStringLiteral("checkSignBtn"));
-        checkSignBtn->setGeometry(QRect(110, 50, 75, 23));
+        checkSignBtn->setGeometry(QRect(110, 80, 75, 23));
         checkSignBtn2 = new QPushButton(groupBox_3);
         checkSignBtn2->setObjectName(QStringLiteral("checkSignBtn2"));
-        checkSignBtn2->setGeometry(QRect(200, 50, 75, 23));
+        checkSignBtn2->setGeometry(QRect(200, 80, 75, 23));
         timeStartBtn = new QPushButton(groupBox_3);
         timeStartBtn->setObjectName(QStringLiteral("timeStartBtn"));
-        timeStartBtn->setGeometry(QRect(500, 50, 75, 23));
+        timeStartBtn->setGeometry(QRect(590, 50, 75, 23));
+        siteNameEdit = new QLineEdit(groupBox_3);
+        siteNameEdit->setObjectName(QStringLiteral("siteNameEdit"));
+        siteNameEdit->setGeometry(QRect(210, 20, 171, 20));
+        tableIndexEdit = new QLineEdit(groupBox_3);
+        tableIndexEdit->setObjectName(QStringLiteral("tableIndexEdit"));
+        tableIndexEdit->setGeometry(QRect(20, 20, 61, 20));
+        console_edit = new QTextEdit(centralWidget);
+        console_edit->setObjectName(QStringLiteral("console_edit"));
+        console_edit->setGeometry(QRect(1020, 10, 291, 601));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1018, 23));
+        menuBar->setGeometry(QRect(0, 0, 1318, 23));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));

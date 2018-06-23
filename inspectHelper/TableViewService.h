@@ -18,6 +18,8 @@ public:
     void initSiteTable();
     void clearSiteTable();
     void insertSiteTableItem(SiteObject *o);
+    void updateSiteTable_signInTime(int index);
+    void updateSiteTable_signOutTime(int index);
 
 private:
     QTableView *m_site_table;

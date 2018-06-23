@@ -30,6 +30,11 @@ void MainWindow::initHttp(){
     QObject::connect(m_accessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(httpReplySlot(QNetworkReply*)));
 }
 
+void MainWindow::my_debug(QString s)
+{
+    ui->console_edit->append(s);
+}
+
 void MainWindow::httpReplySlot(QNetworkReply *reply){
     if (reply->error() == QNetworkReply::NoError)
     {
@@ -41,19 +46,19 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
 
 
         if(url.contains("Login.action")&&url.contains("183.252.192.25")){
-            qDebug()<<"易运维主界面登录";
+
             string=string.replace("\"","'");
 
             if(string.contains("登录成功")){
-                qDebug()<<"易运维界面登录成功！";
-                ui->statusBar->showMessage("易运维界面登录成功！",2*1000);
+                my_debug("易运维界面登录成功！");
+
             }else{
-                qDebug()<<"易运维界面登录失败！";
-                ui->statusBar->showMessage("易运维界面登录失败！",2*1000);
+                my_debug("易运维界面登录失败！");
+
             }
         }
         else if(url.contains("183.252.192.28")&&url.contains("androidAction")&&string.contains("developerSerialNumber")){
-            qDebug()<<"获取Cookie";
+
             string=string.replace("\"","'");
             int sp,ep;
             sp=string.indexOf("JID");
@@ -64,11 +69,11 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
 
             ui->cookieEdit->setText("JSESSIONID="+JSESSIONID+"; username="+ui->userName->text());
 
-            ui->statusBar->showMessage("获取Cookie成功:"+JSESSIONID,2*1000);
+            my_debug("获取Cookie成功:"+JSESSIONID);
 
         }
         else if(url.contains("inspectSpotcheckAction")&&string.contains("RN")&&string.contains("RESID")){
-            qDebug()<<"获取抽检列表页";
+
             string=string.replace("\"","'");
 
             //QList<SiteObject*>* siteList=new QList<SiteObject*>();
@@ -84,11 +89,11 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
                 SiteObject *site_o=new SiteObject(o_text);
                 tableViewService->insertSiteTableItem(site_o);
             }
-            ui->statusBar->showMessage("获取抽检清单成功！",2*1000);
+            my_debug("获取抽检清单成功！");
         }
         else if(string.contains("planName")&&string.contains("deptMagId")&&string.contains("returnList")){
             //获取PlanID
-            qDebug()<<"抽检计划总清单";
+
             string=string.replace("\"","'");
             int sp,ep;
             sp=string.indexOf("id");
@@ -98,11 +103,12 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
             planID=planID.replace("'","");
 
             ui->planIdEdit->setText(planID);
-            ui->statusBar->showMessage("获取PlanID成功:"+planID,2*1000);
+            my_debug("获取PlanID成功:"+string);
         }
         else if(url.contains("inspectSpotcheckAction")&&string.contains("success")&&string.contains("true")){
             //获取PlanID
-           ui->statusBar->showMessage("签退成功",2*1000);
+            my_debug("签退成功");
+           //ui->statusBar->showMessage("签退成功",2*1000);
         }
 
 
@@ -111,7 +117,7 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
             qDebug()<<string;
         }
 
-        qDebug()<<"---------------------------";
+
 
     }
     else
@@ -203,6 +209,11 @@ void MainWindow::on_getSiteListBtn_clicked()
 
 void MainWindow::on_SignBtn_clicked()
 {
+    int table_index=ui->tableIndexEdit->text().toInt();
+    tableViewService->updateSiteTable_signInTime(table_index);
+
+
+
     QString resId=ui->resIdEdit->text();
     QString lng=ui->longitudeEdit->text();
     QString lat=ui->latitudeEdit->text();
@@ -244,12 +255,14 @@ void MainWindow::on_site_table_doubleClicked(const QModelIndex &index)
     QString resId=myModel->index(i,1).data().toString();
     double lng=myModel->index(i,3).data().toString().toDouble();
     double lat=myModel->index(i,4).data().toString().toDouble();
+    QString siteName=myModel->index(i,2).data().toString();
+
 
     lng+=0.0001;
     lat+=0.0001;
 
-
-
+    ui->tableIndexEdit->setText(QString::number(i));
+    ui->siteNameEdit->setText(siteName);
     ui->resIdEdit->setText(resId);
     ui->longitudeEdit->setText(QString::number(lng,'f',6));
     ui->latitudeEdit->setText(QString::number(lat,'f',6));
@@ -287,6 +300,10 @@ void MainWindow::on_checkSignBtn_clicked()
 
 void MainWindow::on_checkSignBtn2_clicked()
 {
+    int table_index=ui->tableIndexEdit->text().toInt();
+    tableViewService->updateSiteTable_signOutTime(table_index);
+
+
     QString resId=ui->resIdEdit->text();
     QString planId=ui->planIdEdit->text();
 
@@ -375,6 +392,13 @@ void MainWindow::on_getCookieBtn_clicked()
 
 void MainWindow::on_timeStartBtn_clicked()
 {
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+    AutoThread *autoThread=new AutoThread();
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+
+    return;
+
     timeRecord = new QTime(0, 0, 0);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateTime()));
     timer->start(1000);
@@ -389,5 +413,10 @@ void MainWindow::updateTime()
     }
 
     ui->statusBar->showMessage("计时："+timeRecord->toString("mm:ss"),1000);
+}
+
+void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
+{
+     qDebug()<<"Thread Msg:"+msg.getMsgString();
 }
 

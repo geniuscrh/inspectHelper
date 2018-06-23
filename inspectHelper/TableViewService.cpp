@@ -55,6 +55,26 @@ void TableViewService::insertSiteTableItem(SiteObject *o)
     myModel->setItem(rowCount,6,new QStandardItem(o->getCHECK_END_TIME()));
 }
 
+void TableViewService::updateSiteTable_signInTime(int index)
+{
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_date =current_date_time.toString("hh:mm");
+
+
+    QStandardItemModel  *myModel =(QStandardItemModel*)m_site_table->model();
+    myModel->setItem(index,5,new QStandardItem(current_date));
+}
+
+void TableViewService::updateSiteTable_signOutTime(int index)
+{
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_date =current_date_time.toString("hh:mm");
+
+
+    QStandardItemModel  *myModel =(QStandardItemModel*)m_site_table->model();
+    myModel->setItem(index,6,new QStandardItem(current_date));
+}
+
 QTableView *TableViewService::site_table() const
 {
     return m_site_table;

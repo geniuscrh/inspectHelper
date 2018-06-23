@@ -19,11 +19,15 @@ SOURCES += main.cpp\
         MainWindow.cpp \
     NetworkCookieJar.cpp \
     TableViewService.cpp \
-    SiteObject.cpp
+    SiteObject.cpp \
+    ThreadMsg.cpp \
+    AutoThread.cpp
 
 HEADERS  += MainWindow.h \
     NetworkCookieJar.h \
     TableViewService.h \
-    SiteObject.h
+    SiteObject.h \
+    ThreadMsg.h \
+    AutoThread.h
 
 FORMS    += MainWindow.ui
