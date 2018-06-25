@@ -62,6 +62,8 @@ private slots:
     void updateTime();
 
     void receiveAutoThreadMsg(ThreadMsg s);
+
+    void loadSite(int index);
 private:
     Ui::MainWindow *ui;
 

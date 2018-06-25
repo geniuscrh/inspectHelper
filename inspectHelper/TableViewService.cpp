@@ -55,6 +55,29 @@ void TableViewService::insertSiteTableItem(SiteObject *o)
     myModel->setItem(rowCount,6,new QStandardItem(o->getCHECK_END_TIME()));
 }
 
+int TableViewService::loadSiteTableItemIndex()
+{
+     QStandardItemModel  *myModel =(QStandardItemModel*)m_site_table->model();
+
+    for(int i=0;i<myModel->rowCount();i++){
+
+        QString sign_time=myModel->index(i,5).data().toString();
+        QString check_time=myModel->index(i,6).data().toString();
+
+
+
+        if(check_time.isEmpty()||check_time=="null"){
+            qDebug()<<"加载："+QString::number(i);
+            return i;
+        }
+    }
+
+    return -1;
+
+
+
+}
+
 void TableViewService::updateSiteTable_signInTime(int index)
 {
     QDateTime current_date_time =QDateTime::currentDateTime();

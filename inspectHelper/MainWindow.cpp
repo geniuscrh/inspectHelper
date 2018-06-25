@@ -107,7 +107,7 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
         }
         else if(url.contains("inspectSpotcheckAction")&&string.contains("success")&&string.contains("true")){
             //获取PlanID
-            my_debug("签退成功");
+            my_debug("成功");
            //ui->statusBar->showMessage("签退成功",2*1000);
         }
 
@@ -248,10 +248,15 @@ void MainWindow::on_site_table_doubleClicked(const QModelIndex &index)
             return;
      }
 
+    loadSite(index.row());
 
+
+}
+
+void MainWindow::loadSite(int i)
+{
     QStandardItemModel  *myModel =(QStandardItemModel*)ui->site_table->model();
 
-    int i=index.row();
     QString resId=myModel->index(i,1).data().toString();
     double lng=myModel->index(i,3).data().toString().toDouble();
     double lat=myModel->index(i,4).data().toString().toDouble();
@@ -266,6 +271,8 @@ void MainWindow::on_site_table_doubleClicked(const QModelIndex &index)
     ui->resIdEdit->setText(resId);
     ui->longitudeEdit->setText(QString::number(lng,'f',6));
     ui->latitudeEdit->setText(QString::number(lat,'f',6));
+
+    my_debug("加载站点："+siteName);
 }
 
 void MainWindow::on_checkSignBtn_clicked()
@@ -397,7 +404,7 @@ void MainWindow::on_timeStartBtn_clicked()
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
-    return;
+
 
     timeRecord = new QTime(0, 0, 0);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateTime()));
@@ -417,6 +424,29 @@ void MainWindow::updateTime()
 
 void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
 {
-     qDebug()<<"Thread Msg:"+msg.getMsgString();
+    if(msg.getMsgType()==AutoThread::Thread_SIGNAL_LOAD_SITE) {
+       //my_debug("Thread Msg:"+msg.getMsgString());
+       int table_index=tableViewService->loadSiteTableItemIndex();
+       loadSite(table_index);
+    }
+    else if(msg.getMsgType()==AutoThread::Thread_SIGNAL_SIGNIN) {
+       my_debug("Thread Msg:"+msg.getMsgString());
+       on_SignBtn_clicked();
+    }
+    else if(msg.getMsgType()==AutoThread::Thread_SIGNAL_SIGNOUT_1) {
+       my_debug("Thread Msg:"+msg.getMsgString());
+       on_checkSignBtn_clicked();
+    }
+    else if(msg.getMsgType()==AutoThread::Thread_SIGNAL_SIGNOUT_2) {
+       my_debug("Thread Msg:"+msg.getMsgString());
+       on_checkSignBtn2_clicked();
+    }
+    else{
+       my_debug("Thread Msg:"+msg.getMsgString());
+    }
+
+
 }
+
+
 
