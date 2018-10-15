@@ -14,6 +14,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = inspectHelper
 TEMPLATE = app
 
+RC_FILE = icon.rc
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -31,3 +32,6 @@ HEADERS  += MainWindow.h \
     AutoThread.h
 
 FORMS    += MainWindow.ui
+
+RESOURCES += \
+    image.qrc

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[22];
-    char stringdata0[368];
+    QByteArrayData data[23];
+    char stringdata0[387];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -50,7 +50,8 @@ QT_MOC_LITERAL(17, 315, 10), // "updateTime"
 QT_MOC_LITERAL(18, 326, 20), // "receiveAutoThreadMsg"
 QT_MOC_LITERAL(19, 347, 9), // "ThreadMsg"
 QT_MOC_LITERAL(20, 357, 1), // "s"
-QT_MOC_LITERAL(21, 359, 8) // "loadSite"
+QT_MOC_LITERAL(21, 359, 8), // "loadSite"
+QT_MOC_LITERAL(22, 368, 18) // "on_hideBtn_clicked"
 
     },
     "MainWindow\0httpReplySlot\0\0QNetworkReply*\0"
@@ -63,7 +64,7 @@ QT_MOC_LITERAL(21, 359, 8) // "loadSite"
     "on_clearSiteTableBtn_clicked\0"
     "on_getCookieBtn_clicked\0on_timeStartBtn_clicked\0"
     "updateTime\0receiveAutoThreadMsg\0"
-    "ThreadMsg\0s\0loadSite"
+    "ThreadMsg\0s\0loadSite\0on_hideBtn_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,7 +74,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -81,21 +82,22 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   89,    2, 0x08 /* Private */,
-       5,    0,   92,    2, 0x08 /* Private */,
-       6,    0,   93,    2, 0x08 /* Private */,
-       7,    0,   94,    2, 0x08 /* Private */,
-       8,    0,   95,    2, 0x08 /* Private */,
-       9,    1,   96,    2, 0x08 /* Private */,
-      11,    0,   99,    2, 0x08 /* Private */,
-      12,    0,  100,    2, 0x08 /* Private */,
-      13,    0,  101,    2, 0x08 /* Private */,
-      14,    0,  102,    2, 0x08 /* Private */,
-      15,    0,  103,    2, 0x08 /* Private */,
-      16,    0,  104,    2, 0x08 /* Private */,
-      17,    0,  105,    2, 0x08 /* Private */,
-      18,    1,  106,    2, 0x08 /* Private */,
-      21,    1,  109,    2, 0x08 /* Private */,
+       1,    1,   94,    2, 0x08 /* Private */,
+       5,    0,   97,    2, 0x08 /* Private */,
+       6,    0,   98,    2, 0x08 /* Private */,
+       7,    0,   99,    2, 0x08 /* Private */,
+       8,    0,  100,    2, 0x08 /* Private */,
+       9,    1,  101,    2, 0x08 /* Private */,
+      11,    0,  104,    2, 0x08 /* Private */,
+      12,    0,  105,    2, 0x08 /* Private */,
+      13,    0,  106,    2, 0x08 /* Private */,
+      14,    0,  107,    2, 0x08 /* Private */,
+      15,    0,  108,    2, 0x08 /* Private */,
+      16,    0,  109,    2, 0x08 /* Private */,
+      17,    0,  110,    2, 0x08 /* Private */,
+      18,    1,  111,    2, 0x08 /* Private */,
+      21,    1,  114,    2, 0x08 /* Private */,
+      22,    0,  117,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -113,6 +115,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 19,   20,
     QMetaType::Void, QMetaType::Int,   10,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -138,6 +141,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 12: _t->updateTime(); break;
         case 13: _t->receiveAutoThreadMsg((*reinterpret_cast< ThreadMsg(*)>(_a[1]))); break;
         case 14: _t->loadSite((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->on_hideBtn_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -179,13 +183,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }

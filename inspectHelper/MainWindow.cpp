@@ -6,6 +6,29 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->groupBox_login->setVisible(false);
+    ui->groupBox_list->setVisible(false);
+    ui->groupBox_inspect->setVisible(false);
+    ui->console_edit->setVisible(false);
+
+    bool isOK;
+    QString text = QInputDialog::getText(NULL, "请输入",
+                                                       "Please input your License",
+                                                       QLineEdit::Password,
+                                                       "",
+                                                       &isOK);
+    if(isOK) {
+           if(text=="woshijava"){
+               ui->groupBox_login->setVisible(true);
+               ui->groupBox_list->setVisible(true);
+               ui->groupBox_inspect->setVisible(true);
+               ui->console_edit->setVisible(true);
+               initSystemTray();
+           }
+    }
+
+
     initHttp();
 
     tableViewService=new TableViewService();
@@ -102,7 +125,7 @@ void MainWindow::httpReplySlot(QNetworkReply *reply){
             QString planID=string.mid(sp,ep-sp);
             planID=planID.replace("'","");
 
-            ui->planIdEdit->setText(planID);
+            ui->planIdEdit->setText(planID.trimmed());
             my_debug("获取PlanID成功:"+string);
         }
         else if(url.contains("inspectSpotcheckAction")&&string.contains("success")&&string.contains("true")){
@@ -183,7 +206,7 @@ void MainWindow::on_getSiteListBtn_clicked()
 
     QString url="http://183.252.192.28:8080/web/partner/inspect/inspectSpotcheckAction.do";
     QString pageIndex=ui->pageIndexEdit->text();
-    QString postDataStr="latitude=&resName=&planId="+ui->planIdEdit->text()+"&method=findInspectPlanResSpotcheckList&longitude=&inspectState=-1&pageIndex="+pageIndex;
+    QString postDataStr="latitude=&resName=&planId="+ui->planIdEdit->text().trimmed()+"&method=findInspectPlanResSpotcheckList&longitude=&inspectState=-1&pageIndex="+pageIndex;
 
     QString cookie_str=ui->cookieEdit->text();
 
@@ -214,27 +237,36 @@ void MainWindow::on_SignBtn_clicked()
 
 
 
-    QString resId=ui->resIdEdit->text();
-    QString lng=ui->longitudeEdit->text();
-    QString lat=ui->latitudeEdit->text();
+    QString resId=ui->resIdEdit->text().trimmed();
+    QString lng=ui->longitudeEdit->text().trimmed();
+    QString lat=ui->latitudeEdit->text().trimmed();
 
     QString url="http://183.252.192.28:8080/web/partner/inspect/inspectSpotcheckAction.do";
     QString postDataStr="latitude="+lat+"&resId="+resId+"&method=saveInspectSpotcheckSign&status=1&longitude="+lng+"&type=android";
 
+
+    qDebug()<<"签到网址："+url;
+    qDebug()<<"签到数据："+postDataStr;
+
+
     QString cookie_str=ui->cookieEdit->text();
     request->setUrl(QUrl(url));
 
-    request->setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded; charset=utf-8");
-    request->setHeader(QNetworkRequest::UserAgentHeader,"Android_client");
+
     request->setRawHeader("Accept-Encoding","gzip");
+    request->setRawHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+    request->setRawHeader("Accept-Language","zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+    request->setRawHeader("Cache-Control","no-cache");
+    request->setRawHeader("Connection","keep-alive");
+
     request->setRawHeader("appPackageName","com.boco.inspectplan");
     request->setRawHeader("appVersionCode","1086");
     request->setRawHeader("appVersionName","1.0.8.6");
     request->setRawHeader("appDeviceId","359850051017395");
-    request->setRawHeader("Connection","Keep-Alive");
-    request->setRawHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-    request->setRawHeader("Accept-Language","zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+
+    request->setRawHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
     request->setRawHeader("Cookie",cookie_str.toUtf8());
+    request->setHeader(QNetworkRequest::UserAgentHeader,"Android_client");
 
 
     QByteArray postData;
@@ -267,19 +299,19 @@ void MainWindow::loadSite(int i)
     lat+=0.0001;
 
     ui->tableIndexEdit->setText(QString::number(i));
-    ui->siteNameEdit->setText(siteName);
-    ui->resIdEdit->setText(resId);
-    ui->longitudeEdit->setText(QString::number(lng,'f',6));
-    ui->latitudeEdit->setText(QString::number(lat,'f',6));
+    ui->siteNameEdit->setText(siteName.trimmed());
+    ui->resIdEdit->setText(resId.trimmed());
+    ui->longitudeEdit->setText(QString::number(lng,'f',6).trimmed());
+    ui->latitudeEdit->setText(QString::number(lat,'f',6).trimmed());
 
     my_debug("加载站点："+siteName);
 }
 
 void MainWindow::on_checkSignBtn_clicked()
 {
-    QString resId=ui->resIdEdit->text();
-    QString lng=ui->longitudeEdit->text();
-    QString lat=ui->latitudeEdit->text();
+    QString resId=ui->resIdEdit->text().trimmed();
+    QString lng=ui->longitudeEdit->text().trimmed();
+    QString lat=ui->latitudeEdit->text().trimmed();
 
     QString url="http://183.252.192.28:8080/web/partner/inspect/inspectSpotcheckAction.do";
     QString postDataStr="latitude="+lat+"&resId="+resId+"&method=saveInspectSpotcheckEnd&status=1&longitude="+lng;
@@ -311,8 +343,8 @@ void MainWindow::on_checkSignBtn2_clicked()
     tableViewService->updateSiteTable_signOutTime(table_index);
 
 
-    QString resId=ui->resIdEdit->text();
-    QString planId=ui->planIdEdit->text();
+    QString resId=ui->resIdEdit->text().trimmed();
+    QString planId=ui->planIdEdit->text().trimmed();
 
 
     QString url="http://183.252.192.28:8080/web/partner/inspect/inspectSpotcheckAction.do";
@@ -399,11 +431,19 @@ void MainWindow::on_getCookieBtn_clicked()
 
 void MainWindow::on_timeStartBtn_clicked()
 {
+
+    int auto_task_num=1;
+    auto_task_num=ui->auto_task_num_edit->text().toInt();
+
+    my_debug("开始自动任务进程，数量："+QString::number(auto_task_num));
+
+
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    AutoThread *autoThread=new AutoThread();
+    AutoThread *autoThread=new AutoThread(auto_task_num);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
+    return;
 
 
     timeRecord = new QTime(0, 0, 0);
@@ -427,6 +467,7 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
     if(msg.getMsgType()==AutoThread::Thread_SIGNAL_LOAD_SITE) {
        //my_debug("Thread Msg:"+msg.getMsgString());
        int table_index=tableViewService->loadSiteTableItemIndex();
+       qDebug()<<"table_index:"+QString::number(table_index);
        loadSite(table_index);
     }
     else if(msg.getMsgType()==AutoThread::Thread_SIGNAL_SIGNIN) {
@@ -450,3 +491,47 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
 
 
 
+
+void MainWindow::on_hideBtn_clicked()
+{
+    this->hide();
+}
+
+MainWindow::initSystemTray()
+{
+    QString systemTrayIcoSrc=":/icon/image/icon.ico";
+
+    QIcon icon = QIcon(systemTrayIcoSrc);
+    m_systemTray = new QSystemTrayIcon(this);
+    m_systemTray->setIcon(icon);
+
+
+    //设置托管图标菜单
+    QAction *m_action;
+    QMenu *m_menu;
+
+    m_menu = new QMenu(this);
+
+
+    m_action =new QAction(m_menu);
+    //m_action->setIcon(QIcon(":/resource/image/ico/image/icon.ico"));
+    m_action->setText("显示");
+    connect(m_action,&QAction::triggered,this,&MainWindow::showWinow);
+    m_menu->addAction(m_action);
+
+    m_menu->addSeparator();
+
+
+
+    m_menu->addSeparator();
+
+
+
+    m_systemTray->setContextMenu(m_menu);
+    m_systemTray->show();
+}
+
+void MainWindow::showWinow()
+{
+    this->show();
+}

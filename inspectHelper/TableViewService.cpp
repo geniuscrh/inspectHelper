@@ -61,8 +61,8 @@ int TableViewService::loadSiteTableItemIndex()
 
     for(int i=0;i<myModel->rowCount();i++){
 
-        QString sign_time=myModel->index(i,5).data().toString();
-        QString check_time=myModel->index(i,6).data().toString();
+        QString sign_time=myModel->index(i,5).data().toString().trimmed();
+        QString check_time=myModel->index(i,6).data().toString().trimmed();
 
 
 

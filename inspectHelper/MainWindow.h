@@ -8,8 +8,9 @@
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
 #include <QNetworkCookieJar>
-
+#include <QInputDialog>
 #include <NetworkCookieJar.h>
+#include <QSystemTrayIcon>
 
 #include "TableViewService.h"
 #include "SiteObject.h"
@@ -64,7 +65,13 @@ private slots:
     void receiveAutoThreadMsg(ThreadMsg s);
 
     void loadSite(int index);
+    void on_hideBtn_clicked();
+
 private:
+    QSystemTrayIcon *m_systemTray;
+    initSystemTray();
+    void showWinow();
+
     Ui::MainWindow *ui;
 
     QNetworkAccessManager *m_accessManager;

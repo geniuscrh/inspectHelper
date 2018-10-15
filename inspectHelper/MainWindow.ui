@@ -11,10 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>抽检助手</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="image.qrc">
+    <normaloff>:/icon/image/icon.ico</normaloff>:/icon/image/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="groupBox_list">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -53,7 +57,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="groupBox_login">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -153,11 +157,11 @@
       </rect>
      </property>
      <property name="text">
-      <string>JwUeC1NPFkk%3D</string>
+      <string>PA4ZG1NMT04%3D</string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
+   <widget class="QGroupBox" name="groupBox_inspect">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -254,14 +258,14 @@
     <widget class="QPushButton" name="timeStartBtn">
      <property name="geometry">
       <rect>
-       <x>590</x>
-       <y>50</y>
+       <x>570</x>
+       <y>20</y>
        <width>75</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>开始计时</string>
+      <string>自动抽检</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="siteNameEdit">
@@ -284,6 +288,19 @@
       </rect>
      </property>
     </widget>
+    <widget class="QLineEdit" name="auto_task_num_edit">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>20</y>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>5</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QTextEdit" name="console_edit">
     <property name="geometry">
@@ -293,6 +310,19 @@
       <width>291</width>
       <height>601</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="hideBtn">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>10</y>
+      <width>51</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>隐藏</string>
     </property>
    </widget>
   </widget>
@@ -317,6 +347,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>

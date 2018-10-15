@@ -1,8 +1,13 @@
-#include "AutoThread.h"
+﻿#include "AutoThread.h"
 
 AutoThread::AutoThread()
 {
 
+}
+
+AutoThread::AutoThread(int inspect_site_num)
+{
+    this->m_inspect_site_num=inspect_site_num;
 }
 
 void AutoThread::my_sleep(int s)
@@ -10,11 +15,10 @@ void AutoThread::my_sleep(int s)
     ThreadMsg msg;
 
     for(int i=0;i<s;i++){
-        if(i%10==0){
-            msg.setMsgString("等待:"+QString::number(s)+"s,已过"+QString::number(i)+"s");
+        if(i%30==0){
+            msg.setMsgString("等待:"+QString::number(s/60)+"m,已过"+QString::number(i/60)+"m");
             emit returnMsg(msg);
         }
-
         Sleep(1000);
     }
 
@@ -29,8 +33,8 @@ void AutoThread::run()
         return;
     }
     ThreadMsg msg;
-    int time_rec=0;
-    for(;time_rec<1;time_rec++)
+
+    for(int i=0;i<m_inspect_site_num;i++)
     {
         Sleep(1000);
         msg.setMsgType(Thread_SIGNAL_LOAD_SITE);
@@ -42,7 +46,9 @@ void AutoThread::run()
         msg.setMsgString("签到");
         emit returnMsg(msg);
 
-        my_sleep(11*60);
+
+        int random_min=(qrand()%5+11)*60;
+        my_sleep(random_min);
         msg.setMsgType(Thread_SIGNAL_SIGNOUT_1);
         msg.setMsgString("签退");
         emit returnMsg(msg);
@@ -52,9 +58,9 @@ void AutoThread::run()
         msg.setMsgString("签退2");
         emit returnMsg(msg);
 
-
         //等待几分钟后在执行
-        Sleep(5*60*1000);
+        random_min=(qrand()%10)*60;
+        my_sleep(random_min);
     }
 
 
